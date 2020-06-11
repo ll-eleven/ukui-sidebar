@@ -32,6 +32,9 @@
 #include "clipboardpluginiface.h"
 #include "sidebarSmallPluginInterface.h"
 #include "mostgrandwidget.h"
+#include "broadsidewidget.h"
+#include "smallpluginswidget.h"
+#include "pluginsframeworkwidget.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -68,6 +71,9 @@ public:
     //主界面
     void showAnimation();                                                       //show动作
     void hideAnimation();                                                       //hide动作
+    void initTaskbarInteraction();                                              //初始化与任务栏交互
+    void initscreenProblem();                                                   //初始化屏幕分辨率变化以及屏幕数量变化问题
+    void initAnimation();                                                       //初始化动画
     int  ListenClipboardSignal();                                               //监听剪贴板发送的信号
     int  connectTaskBarDbus();                                                  //连接任务栏dbus接口，获取任务栏高度
     int  getPanelSite();                                                        //获取任务栏位置
@@ -86,6 +92,8 @@ public:
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
     void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
     void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标
+    void setLayoutBroadChildWidget();                                           //将子界面加入到左右俩个空的widget界面中
+    void setMainLayoutWidget();                                                 //将俩个空的Widget界面框架加入到主的widget界面当中
 
     bool m_bfinish;
 
@@ -95,10 +103,10 @@ protected:
 
 private:
     //主界面
-    QVBoxLayout*                m_pMainQVBoxLayout;                             //主界面垂直布局器
+    QHBoxLayout*                m_pMainQHBoxLayout;                             //主界面垂直布局器
     QDBusInterface*             m_pServiceInterface;                            //获取任务栏的高度
-    bool                        m_bShowFlag;                                    //控制托盘栏点击事件的标志位
-    bool                        m_bClipboardFlag;                               //剪贴板编辑框打开和关闭时控制侧边栏是否关闭
+    bool                        m_bShowFlag = false;                            //控制托盘栏点击事件的标志位
+    bool                        m_bClipboardFlag = true;                        //剪贴板编辑框打开和关闭时控制侧边栏是否关闭
     int                         m_nScreenWidth;                                 //屏幕分辨率的宽
     int                         m_nScreenHeight;                                //屏幕分辨率的高
     int                         m_nScreen_x;                                    //主屏的起始坐标X
@@ -117,16 +125,13 @@ private:
     QDesktopWidget              *m_pDeskWgt;                                    //桌面问题
     QGSettings                  *m_pPanelSetting = nullptr;
 
-    //快捷操作面板
-    ClipboardInterface*         m_pSidebarClipboard;                            //侧边栏剪贴板指针
-    SidebarClipBoardSignal*     m_pSidebarSignal;                               //剪贴板通信类
-
     //系统托盘
     QSystemTrayIcon*            trayIcon;
     QMenu*                      trayIconMenu;
     QAction*                    Open;
     QAction*                    OpenSetUp;
     QTimer*                     m_pUpdateSmallPluginsWidget;
+    smallPluginsWidget*         m_pSmallPluginsWidget;
 
 private slots :
     void onResolutionChanged(int);                                              //当改变屏幕分辨率时重新获取屏幕分辨率

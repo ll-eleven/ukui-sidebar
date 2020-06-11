@@ -142,7 +142,7 @@ void sidebarPluginsWidgets::initUpGroupBoxButton()
 /* 显示插件的界面下半部分 */
 void sidebarPluginsWidgets::initUnGroupBox()
 {
-    /* 小插件GroupBox指针 */
+    /* 小插件Widget指针 */
     m_pPluginsButtonWidget = new QWidget();
     m_pPluginsButtonWidget->setFixedSize(400, 250);
     m_pPluginsButtonWidget->setContentsMargins(0,0,0,0);
@@ -310,7 +310,6 @@ void sidebarPluginsWidgets::setClipboardWidgetSize(int ClipHight)
     m_cliboardHight = ClipHight;
     qDebug() << "设置小剪贴板的界面大小---->" << ClipHight;
     this->setFixedSize(400, ClipHight);
-    m_pClipboardWidget->setFixedSize(400, ClipHight - 50);
     m_pPluginsButtonWidget->setFixedSize(400, ClipHight - 50);
     return;
 }

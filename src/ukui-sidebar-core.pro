@@ -29,12 +29,15 @@ include(./plugin-interface/plugin-interface.pri)
 
 RESOURCES  += sidebar.qrc
 SOURCES += \
+        broadsidewidget.cpp \
         main.cpp \
         mostgrandwidget.cpp \
+        pluginsframeworkwidget.cpp \
         pluginstoolbutton.cpp \
         sidebarpluginswidgets.cpp \
         smallpluginsbutton.cpp \
         smallpluginsmanage.cpp \
+        smallpluginswidget.cpp \
         widget.cpp \
         pluginmanage.cpp \
         sidebar_app_log.cpp \
@@ -44,11 +47,14 @@ SOURCES += \
 INCLUDEPATH += ./plugin-interface
 
 HEADERS += \
+        broadsidewidget.h \
         mostgrandwidget.h \
+        pluginsframeworkwidget.h \
         pluginstoolbutton.h \
         sidebarpluginswidgets.h \
         smallpluginsbutton.h \
         smallpluginsmanage.h \
+        smallpluginswidget.h \
         widget.h \
         pluginmanage.h \
         sidebar_app_log.h \

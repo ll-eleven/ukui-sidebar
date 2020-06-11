@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
 
     mostGrandWidget::getInstancemostGrandWidget()->LaoutSidebarWidget();
     mostGrandWidget::getInstancemostGrandWidget()->setMostGrandwidgetCoordinates(-500, 0);
-    mostGrandWidget::getInstancemostGrandWidget()->setVisible(true);
+    mostGrandWidget::getInstancemostGrandWidget()->show();
     w->m_bfinish = true;
     w->showAnimation();
 
