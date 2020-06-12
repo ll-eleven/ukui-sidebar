@@ -48,8 +48,8 @@ void broadSideWidget::paintEvent(QPaintEvent *)
      * 黑字体 --> 白字体
     */
 //    p.setBrush(opt.palette.color(QPalette::Base));
-    p.setBrush(QBrush(QColor("#161617")));
-    p.setOpacity(0.65);
+    p.setBrush(QBrush(QColor("#131314")));
+    p.setOpacity(0.45);
     p.setPen(Qt::NoPen);
 
     p.setRenderHint(QPainter::Antialiasing);                        //反锯齿

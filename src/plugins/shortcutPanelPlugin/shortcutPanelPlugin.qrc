@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/fold-normal.svg</file>
+        <file>image/fold-hover.svg</file>
+        <file>image/fold-pressed.svg</file>
+        <file>image/open-hover.svg</file>
+        <file>image/open-normal.svg</file>
+        <file>image/open-pressed.svg</file>
+    </qresource>
+</RCC>
+

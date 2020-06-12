@@ -7,7 +7,7 @@ CONFIG += plugin
 CONFIG += c++11
 TARGET = shortcutPanel
 DESTDIR = ../sidebar_shortcut_Panel_plugins
-
+RESOURCES  += shortcutPanelPlugin.qrc
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -20,9 +20,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    delegate.cpp \
+    listview.cpp \
+    mainwidget.cpp \
+    pushbutton.cpp \
     shortcutpanelplugin.cpp
 
 HEADERS += \
+    data.h \
+    delegate.h \
+    listview.h \
+    mainwidget.h \
+    pushbutton.h \
     shortcutpanelplugin.h
 
 INCLUDEPATH    += ../../plugin-interface

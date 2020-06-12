@@ -58,6 +58,10 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
     if (false == loadNotificationPlugin())
         qDebug() << "通知中心插件加载失败";
 
+    /* 加载快捷操作面板插件 */
+    if (!loadShortCutPanelPlugin())
+        qDebug() << "快捷操作面板插件加载失败";
+
     /* 将左右俩个界面加入到主widget中来 */
     setLayoutBroadChildWidget();
     setMainLayoutWidget();
@@ -93,7 +97,7 @@ Widget::~Widget()
 //加载通知中心插件
 bool Widget::loadNotificationPlugin()
 {
-    QDir pluginsDir("./plugins/notification_plugins");
+    QDir pluginsDir("/usr/lib/ukui-sidebar/notification");
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
 
     m_pNotificationPluginObject = pluginLoader.instance();
@@ -108,6 +112,20 @@ bool Widget::loadNotificationPlugin()
 
     connect(m_pNotificationPluginObject, SIGNAL(Sig_onNewNotification()), this, SLOT(onNewNotification()));
     PluginsFrameworkWidget::getInstancePLuginsFrameworkWidgets()->m_pVBoxLayoutFramework->addWidget(pNotificationPluginObject->centerWidget(), 1);
+    return true;
+}
+
+bool Widget::loadShortCutPanelPlugin()
+{
+    QDir pluginsDir("/usr/lib/ukui-sidebar/shortcutPanelPlugins");
+    QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libshortcutPanel.so"));
+    QObject *pShortCutPanel   = pluginLoader.instance();
+    m_pShortCutPanelInterface = dynamic_cast<shortCutPanelInterface*>(pShortCutPanel);
+    if (nullptr == m_pShortCutPanelInterface) {
+        qWarning() << "快捷操作面板插件插件加载失败";
+        return false;
+    }
+    PluginsFrameworkWidget::getInstancePLuginsFrameworkWidgets()->m_pVBoxLayoutFramework->addWidget(m_pShortCutPanelInterface->getShortCutPanelWidget());
     return true;
 }
 
@@ -284,15 +302,17 @@ int Widget::setClipBoardWidgetScaleFactor()
     }
 }
 
+/* 将左右俩边的子widget加入到左右俩边的主widget */
 void Widget::setLayoutBroadChildWidget()
 {
-    broadSideWidget::getInstanceBroadSideWidgets()->setContentsMargins(10, 0, 10, 0);
+    broadSideWidget::getInstanceBroadSideWidgets()->setContentsMargins(16, 0, 0, 0);
     broadSideWidget::getInstanceBroadSideWidgets()->m_pVLayoutSideWidget->addWidget(m_pSmallPluginsWidget);
     broadSideWidget::getInstanceBroadSideWidgets()->setLayoutSideWidget();
     PluginsFrameworkWidget::getInstancePLuginsFrameworkWidgets()->setLayoutPLuginsFrameworkWidget();
     return;
 }
 
+/* 将左右俩边的主Widget界面加入到主界面中 */
 void Widget::setMainLayoutWidget()
 {
     /* 主界面显示 */

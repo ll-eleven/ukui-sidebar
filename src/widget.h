@@ -35,6 +35,7 @@
 #include "broadsidewidget.h"
 #include "smallpluginswidget.h"
 #include "pluginsframeworkwidget.h"
+#include "shortCutPanelInterface.h"
 
 #define  TRAY_ICON           ":/data/images/kylin-tool-box.svg"
 #define  TRAY_NULL_ICON      ":/data/images/kylin-tool-box-null.svg"
@@ -85,9 +86,7 @@ public:
     void setIcon(QIcon icon);                                                   //设置图标和提示信息;
     void iconActivated(QSystemTrayIcon::ActivationReason reason);               //获取点击事件
     bool loadNotificationPlugin();                                              //加载通知中心插件
-    bool loadClockPlugin();                                                     //加载闹钟插件
-    bool loadfeedbackPlugin();                                                  //加载用户反馈程序
-    bool loadnotebookPlugin();
+    bool loadShortCutPanelPlugin();                                             //加载快捷操作面板插件
     void ModifyScreenNeeds();                                                   //修改屏幕分辨率或者主屏需要做的事情
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
     void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
@@ -114,10 +113,7 @@ private:
     int                         m_pPeonySite;                                   //任务栏位置
 
     QObject*                    m_pNotificationPluginObject;                    //通知中心插件对象
-
-    SidebarSmallPluginInterface *m_pclock_Plugin;                               //闹钟插件全局变量
-    SidebarSmallPluginInterface *m_pPlugin_Plugin;                              //问题反馈全局变量
-    SidebarSmallPluginInterface *m_pnotebookPluginObject;
+    shortCutPanelInterface      *m_pShortCutPanelInterface;                     //快捷操作面板对象
     int                         m_nInitalXPosition;
     QTranslator                 *m_pTranslator;
     QPropertyAnimation          *m_pAnimationShowSidebarWidget;

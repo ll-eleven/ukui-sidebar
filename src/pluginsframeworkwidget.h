@@ -4,7 +4,8 @@
 #include <QObject>
 #include <QWidget>
 #include <QVBoxLayout>
-
+#include <QStyleOption>
+#include <QPainter>
 class PluginsFrameworkWidget: public QWidget
 {
 public:
@@ -16,6 +17,8 @@ public:
     void setLayoutPLuginsFrameworkWidget();
 
     QVBoxLayout* m_pVBoxLayoutFramework;
+protected:
+    void paintEvent(QPaintEvent *e);
 };
 
 #endif // PLUGINSFRAMEWORKWIDGET_H
