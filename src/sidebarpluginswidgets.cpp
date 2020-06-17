@@ -396,7 +396,7 @@ void sidebarPluginsWidgets::parsingDesktopFile()
             m_add_x++;
             m_add_y = 1;
         }
-        qDebug() << "add_y" << m_add_y << "add_x" << m_add_x;
+//        qDebug() << "add_y" << m_add_y << "add_x" << m_add_x;
     }
     return;
 }

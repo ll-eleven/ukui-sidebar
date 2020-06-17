@@ -13,8 +13,9 @@
 #include <qglobal.h>
 #include <QDebug>
 #include "data.h"
-#define AppBtnHover  "#6B8EEB" //按钮悬浮
+#define AppBtnHover  " #FFFFFF" //按钮悬浮
 #define AppBtnSelect "#3D6BE5" //按钮选中
+#define AppBtnSelectHover "#6B8EEB"
 #define AppBtnNormal "#FFFFFF" //正常
 class FullItemDelegate : public QStyledItemDelegate
 {

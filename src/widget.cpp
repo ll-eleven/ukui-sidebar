@@ -84,9 +84,6 @@ Widget::Widget(QWidget *parent) : QWidget (parent)
 
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     qInfo() << "---------------------------主界面加载完毕---------------------------";
-
-    m_pUpdateSmallPluginsWidget = new QTimer();
-    connect(m_pUpdateSmallPluginsWidget, &QTimer::timeout, this, &Widget::updateSmallPluginsClipboardWidget);
 }
 
 Widget::~Widget()
@@ -97,7 +94,7 @@ Widget::~Widget()
 //加载通知中心插件
 bool Widget::loadNotificationPlugin()
 {
-    QDir pluginsDir("/usr/lib/ukui-sidebar/notification");
+    QDir pluginsDir("/usr/lib/ukui-sidebar/shortcutPanelPlugins");
     QPluginLoader pluginLoader(pluginsDir.absoluteFilePath("libnotification_plugin.so"));
 
     m_pNotificationPluginObject = pluginLoader.instance();
@@ -335,7 +332,6 @@ void Widget::showAnimation()
     int  AnimaStartSideBarSite[4];                           //侧边栏动画开始位置
     int  AnimaStopSidebarSite[4];                            //侧边栏动画结束位置
     int clipboardhight = setClipBoardWidgetScaleFactor();
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight);      //设定剪贴板高度
     m_pPeonySite = getPanelSite();
     switch (m_pPeonySite)
     {
@@ -515,7 +511,6 @@ void Widget::onResolutionChanged(int argc)
     Q_UNUSED(argc);
     qDebug() << "屏幕分辨率发生变化";
     GetsAvailableAreaScreen();                               //获取屏幕可用高度区域
-    ModifyScreenNeeds();                                     //修改屏幕分辨率或者主屏需要做的事情
     InitializeHomeScreenGeometry();
     return;
 }
@@ -525,7 +520,6 @@ void Widget::primaryScreenChangedSLot()
 {
     qDebug() << "主屏发生变化";
     GetsAvailableAreaScreen();
-    ModifyScreenNeeds();
     InitializeHomeScreenGeometry();
     return;
 }
@@ -536,7 +530,6 @@ void Widget::screenCountChangedSlots(int count)
     Q_UNUSED(count);
     qDebug() << "屏幕数量发生变化";
     GetsAvailableAreaScreen();
-    ModifyScreenNeeds();
     InitializeHomeScreenGeometry();
     return;
 }
@@ -581,14 +574,6 @@ void Widget::OpenControlCenterSettings()
     QProcess p(0);
     p.startDetached("ukui-control-center -n");
     p.waitForStarted();
-    return;
-}
-
-/* 修改屏幕分辨率或者主屏需要做的事情 */
-void Widget::ModifyScreenNeeds()
-{
-    int clipboardhight = setClipBoardWidgetScaleFactor();
-    sidebarPluginsWidgets::getInstancePluinsWidgets()->setClipboardWidgetSize(clipboardhight); //设定剪贴板高度
     return;
 }
 
@@ -654,7 +639,6 @@ void Widget::onNewNotification()
 /* 切换主题时，定时器槽函数 */
 void Widget::updateSmallPluginsClipboardWidget()
 {
-    ModifyScreenNeeds();
     m_pUpdateSmallPluginsWidget->stop();
 }
 
@@ -669,8 +653,6 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             m_bShowFlag = false;
             return true;
         } else if (event->type() == QEvent::StyleChange) {
-            m_pUpdateSmallPluginsWidget->start(200);
-            sidebarPluginsWidgets::getInstancePluinsWidgets()->setButtonFont();
             return true;
         }
     }

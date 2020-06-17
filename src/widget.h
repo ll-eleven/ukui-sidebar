@@ -87,7 +87,6 @@ public:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);               //获取点击事件
     bool loadNotificationPlugin();                                              //加载通知中心插件
     bool loadShortCutPanelPlugin();                                             //加载快捷操作面板插件
-    void ModifyScreenNeeds();                                                   //修改屏幕分辨率或者主屏需要做的事情
     void GetsAvailableAreaScreen();                                             //获取屏幕可用区域高度
     void MostGrandWidgetCoordinates();                                          //根据任务栏位置调整侧边栏位置
     void InitializeHomeScreenGeometry();                                        //初始化主屏的X坐标

@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include <QPalette>
 #include <QPainter>
+#include <QProcess>
 #include "delegate.h"
 class listView : public QListView
 {
@@ -22,6 +23,8 @@ public:
     void setViewStyle();
     void addData(QList<MyClass> ListData);
     void insertData(QStringList data);
+    void findInterface(InterfaceEnum programInterface);
+    void startSettingWidget();
 
     QTimer *startTime;
 private:

@@ -3,11 +3,12 @@
 shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
 {
     Q_UNUSED(parent);
-    /* 初始化插件成员变量 */
-    initMemberVariables();
-    initStringList();
-    setButtonIcon();
-    setWidget();
+    initMemberVariables();      // 初始化插件成员变量
+    initBaseStringList();       // 初始化基础数据链表
+    initHashData();             // 初始化hash表中值
+    initDataList();             // 初始化ListView中数据
+    setButtonIcon();            // 设置按钮图标
+    setWidget();                // 将切换按钮和ListView界面set进插件主界面
 }
 
 /* 初始化插件成员变量 */
@@ -59,21 +60,39 @@ void shortcutPanelPlugin::initMemberVariables()
 }
 
 /* 初始化ListView中数据 */
-void shortcutPanelPlugin::initStringList()
+void shortcutPanelPlugin::initDataList()
 {
-    m_desktopfile << "/usr/share/applications/feedback.desktop" << "/usr/share/applications/ukui_notebook.desktop"
-                   << "/usr/share/applications/ukui-power-preferences.desktop" << "/usr/share/applications/ukui-control-center.desktop"
-                   << "/usr/share/applications/update-manager.desktop" << "/usr/share/applications/ukui-volume-control.desktop";
-    for(int i = 0; i < 6; i++) {
-        data[i].desktopfp = m_desktopfile[i];
-        if (i%2 == 1) {
-            data[i].status    = true;
+    for (int i = 0; i < m_desktopfile.count(); i++) {
+        data[i].desktopfp   = "/usr/share/applications/" + m_desktopfile[i];
+        data[i].programName = m_programName[i];
+        data[i].IconName    = m_IconName[i];
+        data[i].Interface   = getInterfaceMark(data[i].programName);
+        qDebug() << data[i].IconName;
+        if (m_switchNameList.contains(data[i].programName)) {
+            data[i].status = false;
+        } else if (m_statusNameList.contains(data[i].programName)) {
+            data[i].status = true;
         } else {
-            data[i].status    = false;
+            data[i].status = false;
         }
         ListData.append(data[i]);
     }
+
     m_pListView->addData(ListData);
+    return;
+}
+
+/* 初始化hash表中的数据 */
+void shortcutPanelPlugin::initHashData()
+{
+    m_InterfaceHash.insert(PAD_NAME, InterfaceEnum::PAD);
+    m_InterfaceHash.insert(WIFI_NAME, InterfaceEnum::WIFI);
+    m_InterfaceHash.insert(NODISTURB_NAME, InterfaceEnum::NODISTURB);
+    m_InterfaceHash.insert(SETTING_NAME, InterfaceEnum::SETTING);
+    m_InterfaceHash.insert(BLUETOOTH_NAME, InterfaceEnum::BLUETOOTH);
+    m_InterfaceHash.insert(HOTSPOT_NAME, InterfaceEnum::HOTSPOT);
+    m_InterfaceHash.insert(CALCULATOR_NAME, InterfaceEnum::CALCULATOR);
+    m_InterfaceHash.insert(SCREENSHOT_NAME, InterfaceEnum::SCREENSHOT);
     return;
 }
 
@@ -106,6 +125,26 @@ void shortcutPanelPlugin::setWidget()
     return;
 }
 
+void shortcutPanelPlugin::initBaseStringList()
+{
+    m_desktopfile << "/usr/share/applications/feedback.desktop" << "/usr/share/applications/ukui_notebook.desktop"
+                   << "/usr/share/applications/ukui-power-preferences.desktop" << "/usr/share/applications/ukui-control-center.desktop"
+                   << "/usr/share/applications/update-manager.desktop" << "/usr/share/applications/ukui-volume-control.desktop"
+                   << "/usr/share/applications/update-manager.desktop" << "/usr/share/applications/ukui-volume-control.desktop";
+
+    m_IconName    << KYLIN_PAD_NORMAL << KYLIN_WIFI_NORMAL << KYLIN_NODISTURB_NORMAL << KYLIN_SETTING_NORMAL
+                  << KYLIN_BLUETOOTH_NORMAL << KYLIN_HOTSPOT_NORMAL << KYLIN_CALCULATOR_NORMAL << KYLIN_SCREENSHOT_NORMAL;
+
+    m_programName << PAD_NAME << WIFI_NAME << NODISTURB_NAME << SETTING_NAME
+                  << BLUETOOTH_NAME << HOTSPOT_NAME << CALCULATOR_NAME << SCREENSHOT_NAME;
+
+    m_switchNameList << SETTING_NAME << CALCULATOR_NAME << SCREENSHOT_NAME;
+
+    m_statusNameList << PAD_NAME << WIFI_NAME << NODISTURB_NAME << BLUETOOTH_NAME << HOTSPOT_NAME;
+}
+
+
+
 /* 获取快捷操作面板界面 */
 QWidget* shortcutPanelPlugin::getShortCutPanelWidget()
 {
@@ -113,6 +152,48 @@ QWidget* shortcutPanelPlugin::getShortCutPanelWidget()
         return nullptr;
     }
     return m_pMainWidget;
+}
+
+/* 获取接口代号 */
+InterfaceEnum shortcutPanelPlugin::getInterfaceMark(QString key)
+{
+
+    if ("" == key) {
+        qDebug() << "获取接口代号失败， 传入参数有误";
+        return InterfaceEnum::Else;
+    }
+    if (m_InterfaceHash.contains(key)) {
+        return m_InterfaceHash.value(key);
+    }
+    else
+        return InterfaceEnum::Else;
+}
+
+/* 移除Hash中接口 */
+void shortcutPanelPlugin::removeInterfaceMark(QString key)
+{
+    if ("" == key) {
+        qDebug() << "移除Hash中接口失败， 传入参数有误";
+        return;
+    }
+    if (m_InterfaceHash.contains(key))
+        m_InterfaceHash.remove(key);
+    return;
+}
+
+/* 插入接口和代号往Hash表中 */
+void shortcutPanelPlugin::insertInterfaceMark(QString key, InterfaceEnum value)
+{
+    if ("" == key || value < 0) {
+        qDebug() << "插入数据失败， 传入参数有误";
+        return;
+    }
+    if (m_InterfaceHash.contains(key)) {
+        qDebug() << "此Key值已存在";
+        return;
+    }
+    m_InterfaceHash.insert(key, value);
+    return;
 }
 
 /* 展开按钮槽函数 */
