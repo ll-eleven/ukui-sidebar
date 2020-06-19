@@ -5,10 +5,22 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QStringList>
+#include <QDBusInterface>
+#include <QDBusReply>
+#include <QDebug>
+#include <QGridLayout>
 #include "mainwidget.h"
 #include "pushbutton.h"
-#include "listview.h"
 #include "data.h"
+#include "bluetoothwidget.h"
+#include "calculatorwidget.h"
+#include "hotspotwidget.h"
+#include "nodisturbwidget.h"
+#include "padwidget.h"
+#include "screenshotwidget.h"
+#include "settingwidget.h"
+#include "wifiwidget.h"
+
 #define SPREAD_BUTTON_NORMAL       ":/image/open-normal.svg"
 #define SPREAD_BUTTON_HOVER        ":/image/open-hover.svg"
 #define SPREAD_BUTTON_PRESS        ":/image/open-pressed.svg"
@@ -16,14 +28,13 @@
 #define FOLD_BUTTON_HOVER          ":/image/fold-hover.svg"
 #define FOLD_BUTTON_PRESS          ":/image/fold-pressed.svg"
 
-#define KYLIN_PAD_NORMAL           "kylin-pad-normal"
-#define KYLIN_WIFI_NORMAL          "kylin-wifi-normal"
-#define KYLIN_NODISTURB_NORMAL     "kylin-nodisturb-normal"
-#define KYLIN_SETTING_NORMAL       "kylin-setting-normal"
-#define KYLIN_BLUETOOTH_NORMAL     "kylin-bluetooth-normal"
-#define KYLIN_HOTSPOT_NORMAL       "kylin-hotspot-normal"
-#define KYLIN_CALCULATOR_NORMAL    "kylin-calculator-normal"
-#define KYLIN_SCREENSHOT_NORMAL    "kylin-screenshot-normal"
+#define FOLD_BUTTON_NORMAL_NAME    "kylin-fold-normal"
+#define FOLD_BUTTON_HOVER_NAME     "kylin-fold-hover"
+#define FOLD_BUTTON_PRESS_NAME     "kylin-fold-pressed"
+
+#define SPREAD_BUTTON_NORMAL_NAME  "kylin-open-normal"
+#define SPREAD_BUTTON_HOVER_NAME   "kylin-open-hover"
+#define SPREAD_BUTTON_PRESS_NAME   "kylin-open-pressed"
 
 #define PAD_NAME                   "平板模式"
 #define WIFI_NAME                  "Wifi"
@@ -47,15 +58,14 @@ public:
 
     //插件函数
     void initMemberVariables();
-    void initDataList();
-    void initHashData();
+    void initShortButtonWidget();
+    void initsetShortWidget();
+    void resetShortWidget();
     void setButtonIcon();
+
     void setWidget();
 
-    /* 成员变量字符串链表的 初 增 删 */
-    void initBaseStringList();
-    void addBaseStringList();
-    void removeStringList();
+    bool getwifiisEnable();
 
     /* Hash表  查、删、增 */
     InterfaceEnum getInterfaceMark(QString key);
@@ -66,26 +76,33 @@ public slots:
     void spreadClikedSlots();
     void foldClikedSlots();
 private:
-    QVBoxLayout *m_pMainVLayout   = nullptr;
-    QHBoxLayout *m_pButtonHLaout  = nullptr;
-    QVBoxLayout *m_pViewVLayout   = nullptr;
-    MainWidget  *m_pMainWidget    = nullptr;
-    QWidget     *m_pButtonWidget  = nullptr;
-    QWidget     *m_pViewWidget    = nullptr;
-    QPushButton *m_pSpreadButton  = nullptr;
-    QPushButton *m_pfoldButton    = nullptr;
+    QVBoxLayout  *m_pMainVLayout    = nullptr;
+    QHBoxLayout  *m_pButtonHLaout   = nullptr;
+    QGridLayout  *m_pShortGLayout   = nullptr;
+    MainWidget   *m_pMainWidget     = nullptr;
+    QWidget      *m_pButtonWidget   = nullptr;
+    QWidget      *m_pShortWidget    = nullptr;
+    PushButton   *m_pSpreadButton   = nullptr;
+    PushButton   *m_pfoldButton     = nullptr;
 
-    listView    *m_pListView      = nullptr;
-    QStringList  m_desktopfile;
-    QStringList  m_programName;
-    QStringList  m_IconName;
-    QStringList  m_SpreadButtonIconList;
-    QStringList  m_FoldButtonIconList;
-    QStringList  m_switchNameList;
-    QStringList  m_statusNameList;
+    QStringList   m_SpreadButtonIconList;
+    QStringList   m_FoldButtonIconList;
+    QStringList   m_SpreadButtonIconNameList;
+    QStringList   m_FoldButtonIconNameList;
+
     MyClass data[8];
-    QList<MyClass> ListData;
+    QList<QWidget*> ShortButtonWidgetList;
     QHash<QString, InterfaceEnum> m_InterfaceHash;
+
+    /* 8个按钮 快捷界面 */
+    bluetoothWidget      *m_pbluetoothWidget;
+    calculatorWidget     *m_pcalculatorWidget;
+    hotspotWidget        *m_photspotWidget;
+    nodisturbWidget      *m_pnodisturbWidget;
+    padWidget            *m_ppadWidget;
+    screenshotWidget     *m_pscreenshotWidget;
+    settingWidget        *m_psettingWidget;
+    WifiWidget           *m_pWifiWidget;
 };
 
 #endif // SHORTCUTPANELPLUGIN_H

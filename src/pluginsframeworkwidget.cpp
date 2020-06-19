@@ -9,7 +9,7 @@ PluginsFrameworkWidget::PluginsFrameworkWidget(QWidget *parent) : QWidget(parent
 void PluginsFrameworkWidget::init()
 {
     m_pVBoxLayoutFramework = new QVBoxLayout();
-    m_pVBoxLayoutFramework->setContentsMargins(16, 0, 16, 0);
+    m_pVBoxLayoutFramework->setContentsMargins(11, 0, 16, 0);
     return;
 }
 

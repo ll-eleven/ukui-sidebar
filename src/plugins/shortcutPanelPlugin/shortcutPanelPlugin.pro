@@ -1,13 +1,13 @@
 
-QT       += core gui widgets
+QT       += core gui widgets dbus
 
 TEMPLATE = lib
 CONFIG += plugin
-
-CONFIG += c++11
+CONFIG += c++11 link_pkgconfig
 TARGET = shortcutPanel
 DESTDIR = ../sidebar_shortcut_Panel_plugins
 RESOURCES  += shortcutPanelPlugin.qrc
+PKGCONFIG  += gsettings-qt
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -20,19 +20,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    delegate.cpp \
-    listview.cpp \
+    bluetoothwidget.cpp \
+    calculatorwidget.cpp \
+    hotspotwidget.cpp \
     mainwidget.cpp \
+    nodisturbwidget.cpp \
+    padwidget.cpp \
     pushbutton.cpp \
-    shortcutpanelplugin.cpp
+    screenshotwidget.cpp \
+    settingwidget.cpp \
+    shortcutpanelplugin.cpp \
+    wifiwidget.cpp
 
 HEADERS += \
+    bluetoothwidget.h \
+    calculatorwidget.h \
     data.h \
-    delegate.h \
-    listview.h \
+    hotspotwidget.h \
     mainwidget.h \
+    nodisturbwidget.h \
+    padwidget.h \
     pushbutton.h \
-    shortcutpanelplugin.h
+    screenshotwidget.h \
+    settingwidget.h \
+    shortcutpanelplugin.h \
+    wifiwidget.h
 
 INCLUDEPATH    += ../../plugin-interface
 

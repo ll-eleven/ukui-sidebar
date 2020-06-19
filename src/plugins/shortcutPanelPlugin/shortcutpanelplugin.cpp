@@ -4,10 +4,9 @@ shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
 {
     Q_UNUSED(parent);
     initMemberVariables();      // 初始化插件成员变量
-    initBaseStringList();       // 初始化基础数据链表
-    initHashData();             // 初始化hash表中值
-    initDataList();             // 初始化ListView中数据
+    initShortButtonWidget();    // 初始化8个快捷按钮界面
     setButtonIcon();            // 设置按钮图标
+    initsetShortWidget();           // 布局快捷按钮界面
     setWidget();                // 将切换按钮和ListView界面set进插件主界面
 }
 
@@ -22,9 +21,10 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonHLaout->setContentsMargins(0, 0, 0, 0);
     m_pMainVLayout->setSpacing(0);
 
-    m_pViewVLayout  = new QVBoxLayout;
-    m_pViewVLayout->setContentsMargins(0, 0, 0, 0);
-    m_pViewVLayout->setSpacing(0);
+    m_pShortGLayout  = new QGridLayout;
+    m_pShortGLayout->setContentsMargins(18, 0, 18, 0);
+    m_pShortGLayout->setHorizontalSpacing(32);
+    m_pShortGLayout->setVerticalSpacing(0);
 
     m_pMainWidget  = new MainWidget;
     m_pMainWidget->setContentsMargins(0, 0, 0, 0);
@@ -33,66 +33,123 @@ void shortcutPanelPlugin::initMemberVariables()
     m_pButtonWidget->setContentsMargins(0, 0, 0, 0);
     m_pButtonWidget->setFixedHeight(15);
 
-    m_pViewWidget   = new QWidget;
-    m_pViewWidget->setContentsMargins(0, 0, 0, 0);
-
-    m_pListView = new listView(m_pMainWidget);
-    m_pListView->setContentsMargins(0, 0, 0, 0);
-    m_pListView->viewport()->setContentsMargins(0, 0, 0, 0);
-
-    m_pListView->setStyleSheet("background:transparent");
-    QPalette palette = m_pListView->viewport()->palette();
-    palette.setBrush(QPalette::Base, QBrush(QColor("#161617")));
-    m_pListView->viewport()->setPalette(palette);
-
+    m_pShortWidget   = new QWidget;
+    m_pShortWidget->setFixedSize(380, 233);
+    m_pShortWidget->setContentsMargins(0, 0, 0, 0);
 
     m_SpreadButtonIconList << SPREAD_BUTTON_NORMAL << SPREAD_BUTTON_HOVER << SPREAD_BUTTON_PRESS;
     m_FoldButtonIconList   << FOLD_BUTTON_NORMAL   << FOLD_BUTTON_HOVER   << FOLD_BUTTON_PRESS;
 
-    m_pSpreadButton  = new PushButton(m_SpreadButtonIconList);
+    m_SpreadButtonIconNameList << SPREAD_BUTTON_NORMAL_NAME << SPREAD_BUTTON_HOVER_NAME << SPREAD_BUTTON_PRESS_NAME;
+    m_FoldButtonIconNameList   << FOLD_BUTTON_NORMAL_NAME << FOLD_BUTTON_HOVER_NAME << FOLD_BUTTON_PRESS_NAME;
+
+    m_pSpreadButton  = new PushButton(m_SpreadButtonIconList, m_SpreadButtonIconNameList);
     connect(m_pSpreadButton, &QPushButton::clicked, this, &shortcutPanelPlugin::spreadClikedSlots);
     m_pSpreadButton->setFixedSize(45, 15);
 
-    m_pfoldButton = new PushButton(m_FoldButtonIconList);
+    m_pfoldButton = new PushButton(m_FoldButtonIconList, m_FoldButtonIconNameList);
     connect(m_pfoldButton, &QPushButton::clicked, this, &shortcutPanelPlugin::foldClikedSlots);
     m_pfoldButton->setFixedSize(45, 15);
     return;
 }
 
-/* 初始化ListView中数据 */
-void shortcutPanelPlugin::initDataList()
+/* 初始化8个快捷按钮界面 */
+void shortcutPanelPlugin::initShortButtonWidget()
 {
-    for (int i = 0; i < m_desktopfile.count(); i++) {
-        data[i].desktopfp   = "/usr/share/applications/" + m_desktopfile[i];
-        data[i].programName = m_programName[i];
-        data[i].IconName    = m_IconName[i];
-        data[i].Interface   = getInterfaceMark(data[i].programName);
-        qDebug() << data[i].IconName;
-        if (m_switchNameList.contains(data[i].programName)) {
-            data[i].status = false;
-        } else if (m_statusNameList.contains(data[i].programName)) {
-            data[i].status = true;
-        } else {
-            data[i].status = false;
-        }
-        ListData.append(data[i]);
-    }
+    /* 清空链表中的数据，初始化 */
+    ShortButtonWidgetList.clear();
 
-    m_pListView->addData(ListData);
+    /* 平板模式 */
+    m_ppadWidget       = new padWidget();
+    ShortButtonWidgetList.append(m_ppadWidget);
+
+    /* Wifi */
+    m_pWifiWidget = new WifiWidget();
+    ShortButtonWidgetList.append(m_pWifiWidget);
+
+    /* 免打扰 */
+    m_pnodisturbWidget = new nodisturbWidget();
+    ShortButtonWidgetList.append(m_pnodisturbWidget);
+
+    /* 设置 */
+    m_psettingWidget = new settingWidget();
+    ShortButtonWidgetList.append(m_psettingWidget);
+
+    /* 蓝牙 */
+    m_pbluetoothWidget = new bluetoothWidget();
+    ShortButtonWidgetList.append(m_pbluetoothWidget);
+
+    /* 热点 */
+    m_photspotWidget = new hotspotWidget();
+    ShortButtonWidgetList.append(m_photspotWidget);
+
+    /* 计算器 */
+    m_pcalculatorWidget = new calculatorWidget();
+    ShortButtonWidgetList.append(m_pcalculatorWidget);
+
+    /* 截图 */
+    m_pscreenshotWidget = new screenshotWidget();
+    ShortButtonWidgetList.append(m_pscreenshotWidget);
     return;
 }
 
-/* 初始化hash表中的数据 */
-void shortcutPanelPlugin::initHashData()
+/* 布局8个快捷方式的按钮 */
+void shortcutPanelPlugin::initsetShortWidget()
 {
-    m_InterfaceHash.insert(PAD_NAME, InterfaceEnum::PAD);
-    m_InterfaceHash.insert(WIFI_NAME, InterfaceEnum::WIFI);
-    m_InterfaceHash.insert(NODISTURB_NAME, InterfaceEnum::NODISTURB);
-    m_InterfaceHash.insert(SETTING_NAME, InterfaceEnum::SETTING);
-    m_InterfaceHash.insert(BLUETOOTH_NAME, InterfaceEnum::BLUETOOTH);
-    m_InterfaceHash.insert(HOTSPOT_NAME, InterfaceEnum::HOTSPOT);
-    m_InterfaceHash.insert(CALCULATOR_NAME, InterfaceEnum::CALCULATOR);
-    m_InterfaceHash.insert(SCREENSHOT_NAME, InterfaceEnum::SCREENSHOT);
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(0), 0, 0, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(1), 0, 1, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(2), 0, 2, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(3), 0, 3, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4), 1, 0, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(5), 1, 1, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(6), 1, 2, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(7), 1, 3, 1, 1);
+    }
+    return;
+}
+
+/* 当收到控制面板发出的gsetting信号值变化时，重新布局按钮界面 */
+void shortcutPanelPlugin::resetShortWidget()
+{
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(0), 0, 0, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(1), 0, 1, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(2), 0, 2, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(3), 0, 3, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(4), 1, 0, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(5), 1, 1, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(6), 1, 2, 1, 1);
+    }
+    if (true && true) {
+        m_pShortGLayout->addWidget(ShortButtonWidgetList.at(7), 1, 3, 1, 1);
+    }
     return;
 }
 
@@ -116,34 +173,47 @@ void shortcutPanelPlugin::setWidget()
     m_pButtonWidget->setLayout(m_pButtonHLaout);
     m_pSpreadButton->setVisible(false);
 
-    m_pViewVLayout->addWidget(m_pListView);
-    m_pViewWidget->setLayout(m_pViewVLayout);
+    m_pShortWidget->setLayout(m_pShortGLayout);
 
     m_pMainVLayout->addWidget(m_pButtonWidget);
-    m_pMainVLayout->addWidget(m_pViewWidget);
+    m_pMainVLayout->addWidget(m_pShortWidget);
     m_pMainWidget->setLayout(m_pMainVLayout);
     return;
 }
 
-void shortcutPanelPlugin::initBaseStringList()
+/* 初始化与网络连接的Dbus接口 */
+bool shortcutPanelPlugin::getwifiisEnable()
 {
-    m_desktopfile << "/usr/share/applications/feedback.desktop" << "/usr/share/applications/ukui_notebook.desktop"
-                   << "/usr/share/applications/ukui-power-preferences.desktop" << "/usr/share/applications/ukui-control-center.desktop"
-                   << "/usr/share/applications/update-manager.desktop" << "/usr/share/applications/ukui-volume-control.desktop"
-                   << "/usr/share/applications/update-manager.desktop" << "/usr/share/applications/ukui-volume-control.desktop";
+    QDBusInterface m_interface( "org.freedesktop.NetworkManager",
+                                "/org/freedesktop/NetworkManager",
+                                "org.freedesktop.NetworkManager",
+                                QDBusConnection::systemBus() );
 
-    m_IconName    << KYLIN_PAD_NORMAL << KYLIN_WIFI_NORMAL << KYLIN_NODISTURB_NORMAL << KYLIN_SETTING_NORMAL
-                  << KYLIN_BLUETOOTH_NORMAL << KYLIN_HOTSPOT_NORMAL << KYLIN_CALCULATOR_NORMAL << KYLIN_SCREENSHOT_NORMAL;
+    QDBusReply<QList<QDBusObjectPath>> obj_reply = m_interface.call("GetAllDevices");
+    if (!obj_reply.isValid()) {
+        qDebug()<<"execute dbus method 'GetAllDevices' is invalid in func getObjectPath()";
+    }
 
-    m_programName << PAD_NAME << WIFI_NAME << NODISTURB_NAME << SETTING_NAME
-                  << BLUETOOTH_NAME << HOTSPOT_NAME << CALCULATOR_NAME << SCREENSHOT_NAME;
+    QList<QDBusObjectPath> obj_paths = obj_reply.value();
 
-    m_switchNameList << SETTING_NAME << CALCULATOR_NAME << SCREENSHOT_NAME;
+    foreach (QDBusObjectPath obj_path, obj_paths) {
+        QDBusInterface interface( "org.freedesktop.NetworkManager",
+                                  obj_path.path(),
+                                  "org.freedesktop.DBus.Introspectable",
+                                  QDBusConnection::systemBus() );
 
-    m_statusNameList << PAD_NAME << WIFI_NAME << NODISTURB_NAME << BLUETOOTH_NAME << HOTSPOT_NAME;
+        QDBusReply<QString> reply = interface.call("Introspect");
+        if (!reply.isValid()) {
+            qDebug()<<"execute dbus method 'Introspect' is invalid in func getObjectPath()";
+        }
+
+        if (reply.value().indexOf("org.freedesktop.NetworkManager.Device.Wired") != -1) {
+        } else if (reply.value().indexOf("org.freedesktop.NetworkManager.Device.Wireless") != -1){
+            return true;
+        }
+    }
+    return false ;
 }
-
-
 
 /* 获取快捷操作面板界面 */
 QWidget* shortcutPanelPlugin::getShortCutPanelWidget()
@@ -203,7 +273,7 @@ void shortcutPanelPlugin::spreadClikedSlots()
     m_pfoldButton->setVisible(true);
     int height = m_pMainWidget->height();
     int width  = m_pMainWidget->width();
-    m_pMainWidget->setFixedSize(width, height*2);
+    m_pMainWidget->setFixedSize(width, height*2 - 20);
     return;
 }
 
@@ -214,6 +284,6 @@ void shortcutPanelPlugin::foldClikedSlots()
     m_pfoldButton->setVisible(false);
     int height = m_pMainWidget->height();
     int width  = m_pMainWidget->width();
-    m_pMainWidget->setFixedSize(width, height/2);
+    m_pMainWidget->setFixedSize(width, height/2 + 10);
     return;
 }
