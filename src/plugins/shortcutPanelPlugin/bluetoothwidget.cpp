@@ -5,6 +5,7 @@ bluetoothWidget::bluetoothWidget()
     initMemberVariables();
     initLayout();
     initBluetoothDbus();
+    initBluetoothStatus();
 }
 
 void bluetoothWidget::initMemberVariables()
@@ -38,6 +39,7 @@ void bluetoothWidget::initMemberVariables()
     return;
 }
 
+/* 初始化布局 */
 void bluetoothWidget::initLayout()
 {
     m_pVboxButtonLayout->addWidget(m_pbluetoothButton, 0, Qt::AlignCenter);
@@ -69,17 +71,17 @@ void bluetoothWidget::initBluetoothStatus()
 {
     QDBusMessage msg = m_pServiceInterface->call("GetBluetoothStatus");
     m_bbluetoothStatus = msg.arguments().at(0).toBool();
+    qDebug() << "第一次初始化状态" << m_bbluetoothStatus;
     setBluetoothStatus();
 }
 
+/* 根据按钮状态设置背景色 */
 void bluetoothWidget::setBluetoothStatus()
 {
     if (m_bbluetoothStatus) {
         m_pbluetoothButton->setStyle(m_pStyleOpen);
-        m_bbluetoothStatus = false;
     } else {
         m_pbluetoothButton->setStyle(m_pStyleNormal);
-        m_bbluetoothStatus = true;
     }
     return;
 }
@@ -92,7 +94,17 @@ void bluetoothWidget::BluetoothStatusChangedSlots(bool status)
     return;
 }
 
+/* 点击按钮槽函数 */
 void bluetoothWidget::bluetoothButtonClickSlots()
 {
-    setBluetoothStatus();
+    if (m_bbluetoothStatus) {
+        m_pbluetoothButton->setStyle(m_pStyleNormal);
+        m_bbluetoothStatus = false;
+        m_pServiceInterface->call("SetBluetoothStatus", false);
+    } else {
+        m_pbluetoothButton->setStyle(m_pStyleOpen);
+        m_bbluetoothStatus = true;
+        m_pServiceInterface->call("SetBluetoothStatus", true);
+    }
+    return;
 }

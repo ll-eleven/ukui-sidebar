@@ -21,7 +21,7 @@
 
 #define KYLIN_BLUETOOTH_SERVER_NAME      "org.blueman.Applet"
 #define KYLIN_BLUETOOTH_SERVER_PATH      "/org/blueman/applet"
-#define KYLIN_BLUETOOTH_SERVER_INTERFACE "org.blueman.applet"
+#define KYLIN_BLUETOOTH_SERVER_INTERFACE "org.blueman.Applet"
 
 class bluetoothWidget : public QWidget
 {
