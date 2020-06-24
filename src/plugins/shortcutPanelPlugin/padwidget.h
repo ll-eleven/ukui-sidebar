@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "pushbutton.h"
+#include "switchbutton.h".h"
 
 #define KYLIN_PAD_NORMAL_NAME           "kylin-pad-normal"
 #define KYLIN_PAD_HOVER_NAME            "kylin-pad-hover"
@@ -24,9 +24,12 @@ public:
     void initLayout();
 
 private:
-    PushButton  *m_pPadButton;
-    QLabel      *m_pPadLabel;
-    QVBoxLayout *m_pVboxLayout;
+    QWidget       *m_pWidgetButton;
+    switchButton  *m_pPadButton;
+    QLabel        *m_pPadLabel;
+
+    QVBoxLayout   *m_pVboxButtonLayout;
+    QVBoxLayout   *m_pVboxLayout;
 
     QStringList  m_IconPathList;
     QStringList  m_IconNameList;

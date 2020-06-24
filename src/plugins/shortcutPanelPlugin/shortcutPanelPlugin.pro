@@ -20,6 +20,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    customstyle_switchNormalStatus.cpp \
+    swichButtonOpenStatus.cpp \
     bluetoothwidget.cpp \
     calculatorwidget.cpp \
     hotspotwidget.cpp \
@@ -30,9 +32,12 @@ SOURCES += \
     screenshotwidget.cpp \
     settingwidget.cpp \
     shortcutpanelplugin.cpp \
+    switchbutton.cpp \
     wifiwidget.cpp
 
 HEADERS += \
+    customstyle_switchNormalStatus.h \
+    swichButtonOpenStatus.h \
     bluetoothwidget.h \
     calculatorwidget.h \
     data.h \
@@ -44,6 +49,7 @@ HEADERS += \
     screenshotwidget.h \
     settingwidget.h \
     shortcutpanelplugin.h \
+    switchbutton.h \
     wifiwidget.h
 
 INCLUDEPATH    += ../../plugin-interface

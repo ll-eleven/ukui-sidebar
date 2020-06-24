@@ -10,7 +10,10 @@
 #include <QDBusReply>
 #include <QDebug>
 #include <QGSettings>
-#include "pushbutton.h"
+#include <QStyle>
+#include "switchbutton.h"
+#include "swichButtonOpenStatus.h"
+#include "customstyle_switchNormalStatus.h"
 
 #define CONTROL_CENTER_WIFI "org.ukui.control-center.wifi.switch"
 
@@ -24,26 +27,43 @@
 
 class WifiWidget : public QWidget
 {
+    Q_OBJECT
 public:
     WifiWidget();
     void initMemberVariables();
     void initLayout();
+    void initStatus();
+    void OpenStatus();
+    void NormalStatus();
 
     bool getInitStatus();
+    bool getwifiisEnable();
 
     void initComponent();
     bool getSwitchStatus(QString key);
-private:
-    PushButton *m_pWifiButton;
-    QLabel      *m_pWifiLabel;
-    QVBoxLayout *m_pVboxLayout;
 
-    QGSettings *m_gsettings = nullptr;
+    void setwifiSwitch(bool signal);
+
+private:
+    QWidget      *m_pWidgetButton;
+    switchButton *m_pWifiButton;
+    QLabel       *m_pWifiLabel;
+
+    QStyle       *m_pStyleOpen;
+    QStyle       *m_pStyleNormal;
+
+    QVBoxLayout  *m_pVboxButtonLayout;
+    QVBoxLayout  *m_pVboxLayout;
+
+    QGSettings   *m_gsettings = nullptr;
 
     QStringList   m_IconPathList;
     QStringList   m_IconNameList;
 
     bool          m_bWifiIsEnable;
+private slots:
+
+    void          WifiButtonClickSlot();
 };
 
 #endif // WIFIWIDGET_H

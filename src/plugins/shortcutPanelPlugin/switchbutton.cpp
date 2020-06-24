@@ -1,6 +1,6 @@
-#include "pushbutton.h"
+#include "switchbutton.h"
 
-PushButton::PushButton(QStringList path, QStringList iconNameList)
+switchButton::switchButton(QStringList path, QStringList iconNameList)
 {
     IconPath = path;
     IconNameList = iconNameList;
@@ -11,20 +11,24 @@ PushButton::PushButton(QStringList path, QStringList iconNameList)
     this->setPalette(palette);
 }
 
-void PushButton::mousePressEvent(QMouseEvent *event)
+void switchButton::mousePressEvent(QMouseEvent *event)
 {
+    this->setFixedSize(52, 52);
     this->setIcon(QIcon::fromTheme(IconNameList.at(2), QIcon(IconPath.at(2))));
     QPushButton::mousePressEvent(event);
+    emit pressSignal();
 }
 
-void PushButton::enterEvent(QEvent *event)
+void switchButton::enterEvent(QEvent *event)
 {
     this->setIcon(QIcon::fromTheme(IconNameList.at(1), QIcon(IconPath.at(1))));
     QPushButton::enterEvent(event);
 }
 
-void PushButton::mouseReleaseEvent(QMouseEvent *e)
+void switchButton::mouseReleaseEvent(QMouseEvent *e)
 {
+    this->setFixedSize(62, 62);
     this->setIcon(QIcon::fromTheme(IconNameList.at(0), QIcon(IconPath.at(0))));
     QPushButton::mouseReleaseEvent(e);
+    emit releaseSignal();
 }

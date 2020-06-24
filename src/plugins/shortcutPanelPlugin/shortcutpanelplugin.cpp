@@ -6,7 +6,7 @@ shortcutPanelPlugin::shortcutPanelPlugin(QObject *parent)
     initMemberVariables();      // 初始化插件成员变量
     initShortButtonWidget();    // 初始化8个快捷按钮界面
     setButtonIcon();            // 设置按钮图标
-    initsetShortWidget();           // 布局快捷按钮界面
+    initsetShortWidget();       // 布局快捷按钮界面
     setWidget();                // 将切换按钮和ListView界面set进插件主界面
 }
 
@@ -93,7 +93,7 @@ void shortcutPanelPlugin::initShortButtonWidget()
     return;
 }
 
-/* 布局8个快捷方式的按钮 */
+/* 布局8个快捷方式的按钮, 初始化 */
 void shortcutPanelPlugin::initsetShortWidget()
 {
     if (true && true) {
@@ -179,40 +179,6 @@ void shortcutPanelPlugin::setWidget()
     m_pMainVLayout->addWidget(m_pShortWidget);
     m_pMainWidget->setLayout(m_pMainVLayout);
     return;
-}
-
-/* 初始化与网络连接的Dbus接口 */
-bool shortcutPanelPlugin::getwifiisEnable()
-{
-    QDBusInterface m_interface( "org.freedesktop.NetworkManager",
-                                "/org/freedesktop/NetworkManager",
-                                "org.freedesktop.NetworkManager",
-                                QDBusConnection::systemBus() );
-
-    QDBusReply<QList<QDBusObjectPath>> obj_reply = m_interface.call("GetAllDevices");
-    if (!obj_reply.isValid()) {
-        qDebug()<<"execute dbus method 'GetAllDevices' is invalid in func getObjectPath()";
-    }
-
-    QList<QDBusObjectPath> obj_paths = obj_reply.value();
-
-    foreach (QDBusObjectPath obj_path, obj_paths) {
-        QDBusInterface interface( "org.freedesktop.NetworkManager",
-                                  obj_path.path(),
-                                  "org.freedesktop.DBus.Introspectable",
-                                  QDBusConnection::systemBus() );
-
-        QDBusReply<QString> reply = interface.call("Introspect");
-        if (!reply.isValid()) {
-            qDebug()<<"execute dbus method 'Introspect' is invalid in func getObjectPath()";
-        }
-
-        if (reply.value().indexOf("org.freedesktop.NetworkManager.Device.Wired") != -1) {
-        } else if (reply.value().indexOf("org.freedesktop.NetworkManager.Device.Wireless") != -1){
-            return true;
-        }
-    }
-    return false ;
 }
 
 /* 获取快捷操作面板界面 */

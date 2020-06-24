@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QProcess>
-#include "pushbutton.h"
+#include "switchbutton.h".h"
 
 #define KYLIN_SETTING_NORMAL_NAME       "kylin-setting-normal"
 #define KYLIN_SETTING_HOVER_NAME        "kylin-setting-hover"
@@ -24,8 +24,11 @@ public:
     void initMemberVariables();
     void initLayout();
 private:
-    PushButton   *m_psettingButton;
+    QWidget      *m_pWidgetButton;
+    switchButton *m_psettingButton;
     QLabel       *m_psettingLabel;
+
+    QVBoxLayout  *m_pVboxButtonLayout;
     QVBoxLayout  *m_pVboxLayout;
 
     QStringList   m_IconPathList;

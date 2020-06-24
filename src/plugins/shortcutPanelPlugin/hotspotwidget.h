@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "pushbutton.h"
+#include "switchbutton.h"
 
 #define KYLIN_HOTSPOT_NORMAL_NAME      "kylin-hotspot-normal"
 #define KYLIN_HOTSPOT_HOVER_NAME       "kylin-hotspot-hover"
@@ -23,9 +23,12 @@ public:
     void initMemberVariables();
     void initLayout();
 private:
-    PushButton  *m_photspotButton;
-    QLabel       *m_photspotLabel;
-    QVBoxLayout  *m_pVboxLayout;
+    QWidget       *m_pWidgetButton;
+    switchButton  *m_photspotButton;
+    QLabel        *m_photspotLabel;
+
+    QVBoxLayout   *m_pVboxButtonLayout;
+    QVBoxLayout   *m_pVboxLayout;
 
     QStringList  m_IconPathList;
     QStringList  m_IconNameList;

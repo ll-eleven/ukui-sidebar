@@ -6,4 +6,4 @@ SUBDIRS	    =   ./src/ukui-sidebar-core.pro \
                 ./src/plugins/Clock_deamon/Clock.pro \
                 ./src/plugins/feedback/feedback.pro \
                 ./src/plugins/ukui_notebook/ukui_notebook.pro \
-                ./src/plugins/shortcutPanelPlugin
+                ./src/plugins/shortcutPanelPlugin/shortcutPanelPlugin.pro \

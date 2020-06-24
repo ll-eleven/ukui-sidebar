@@ -11,7 +11,14 @@ void calculatorWidget::initMemberVariables()
 {
     m_IconPathList << KYLIN_CALCULATOR_NORMAL_PATH << KYLIN_CALCULATOR_HOVER_PATH << KYLIN_CALCULATOR_PRESS_PATH;
     m_IconNameList << KYLIN_CALCULATOR_NORMAL_NAME << KYLIN_CALCULATOR_HOVER_NAME << KYLIN_CALCULATOR_PRESS_NAME;
-    m_pcalculatorButton = new PushButton(m_IconPathList, m_IconNameList);
+
+    m_pWidgetButton         = new QWidget();
+    m_pWidgetButton->setFixedSize(62, 62);
+    m_pWidgetButton->setContentsMargins(0, 0, 0, 0);
+    m_pVboxButtonLayout     = new QVBoxLayout();
+    m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
+
+    m_pcalculatorButton = new switchButton(m_IconPathList, m_IconNameList);
     m_pcalculatorButton->setFixedSize(62, 62);
     m_pcalculatorButton->setIconSize(QSize(32, 32));
 
@@ -30,7 +37,9 @@ void calculatorWidget::initMemberVariables()
 
 void calculatorWidget::initLayout()
 {
-    m_pVboxLayout->addWidget(m_pcalculatorButton, 0, Qt::AlignCenter);
+    m_pVboxButtonLayout->addWidget(m_pcalculatorButton, 0, Qt::AlignCenter);
+    m_pWidgetButton->setLayout(m_pVboxButtonLayout);
+    m_pVboxLayout->addWidget(m_pWidgetButton, 0, Qt::AlignCenter);
     m_pVboxLayout->addItem(new QSpacerItem(15, 10));
     m_pVboxLayout->addWidget(m_pcalculatorLabel);
     this->setLayout(m_pVboxLayout);

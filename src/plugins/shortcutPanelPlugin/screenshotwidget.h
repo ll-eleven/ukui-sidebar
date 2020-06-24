@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "pushbutton.h"
+#include "switchbutton.h".h"
 
 #define KYLIN_SCREENSHOT_NORMAL_NAME    "kylin-screenshot-normal"
 #define KYLIN_SCREENSHOT_HOVER_NAME     "kylin-screenshot-hover"
@@ -25,8 +25,11 @@ public:
     void initLayout();
 
 private:
-    PushButton   *m_pscreenshotButton;
+    QWidget      *m_pWidgetButton;
+    switchButton   *m_pscreenshotButton;
     QLabel       *m_pscreenshotlabel;
+
+    QVBoxLayout  *m_pVboxButtonLayout;
     QVBoxLayout  *m_pVboxLayout;
 
     QStringList   m_IconPathList;
