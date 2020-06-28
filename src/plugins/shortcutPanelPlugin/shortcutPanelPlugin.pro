@@ -5,7 +5,7 @@ TEMPLATE = lib
 CONFIG += plugin
 CONFIG += c++11 link_pkgconfig
 TARGET = shortcutPanel
-DESTDIR = ../sidebar_shortcut_Panel_plugins
+DESTDIR = ../shortcutPanelPlugins
 RESOURCES  += shortcutPanelPlugin.qrc
 PKGCONFIG  += gsettings-qt
 # The following define makes your compiler emit warnings if you use

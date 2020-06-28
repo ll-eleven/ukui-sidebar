@@ -4,7 +4,6 @@ calculatorWidget::calculatorWidget(QWidget *parent) : QWidget(parent)
 {
     initMemberVariables();
     initLayout();
-//    this->setStyleSheet("QWidget{border: 1px solid rgba(255,255,0,1);}");
 }
 
 calculatorWidget::~calculatorWidget()
@@ -24,11 +23,11 @@ void calculatorWidget::initMemberVariables()
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pcalculatorButton = new switchButton(m_IconPathList, m_IconNameList);
+    connect(m_pcalculatorButton, &switchButton::clicked, this, &calculatorWidget::calculatorButtonClickSlots);
     m_pcalculatorButton->setFixedSize(62, 62);
     m_pcalculatorButton->setIconSize(QSize(32, 32));
 
     m_pcalculatorLabel = new QLabel(QObject::tr("计算机"));
-//    m_pcalculatorLabel->setFixedSize(80, 16);
     m_pcalculatorLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxLayout = new QVBoxLayout();
@@ -48,5 +47,13 @@ void calculatorWidget::initLayout()
     m_pVboxLayout->addItem(new QSpacerItem(15, 10));
     m_pVboxLayout->addWidget(m_pcalculatorLabel);
     this->setLayout(m_pVboxLayout);
+    return;
+}
+
+void calculatorWidget::calculatorButtonClickSlots()
+{
+    QProcess p(0);
+    p.startDetached("mate-calculator");
+    p.waitForStarted();
     return;
 }

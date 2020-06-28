@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QProcess>
 #include "switchbutton.h"
 
 #define KYLIN_CALCULATOR_NORMAL_PATH    ":/image/calculator-normal.svg"
@@ -34,6 +35,8 @@ private:
 
     QStringList  m_IconPathList;
     QStringList  m_IconNameList;
+private slots:
+    void calculatorButtonClickSlots();
 };
 
 #endif // CALCULATORWIDGET_H
