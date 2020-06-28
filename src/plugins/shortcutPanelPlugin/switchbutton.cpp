@@ -18,15 +18,22 @@ void switchButton::mousePressEvent(QMouseEvent *event)
     QPushButton::mousePressEvent(event);
 }
 
-void switchButton::enterEvent(QEvent *event)
-{
-    this->setIcon(QIcon::fromTheme(IconNameList.at(1), QIcon(IconPath.at(1))));
-    QPushButton::enterEvent(event);
-}
-
 void switchButton::mouseReleaseEvent(QMouseEvent *e)
 {
     this->setFixedSize(62, 62);
     this->setIcon(QIcon::fromTheme(IconNameList.at(0), QIcon(IconPath.at(0))));
     QPushButton::mouseReleaseEvent(e);
 }
+
+void switchButton::enterEvent(QEvent *event)
+{
+    this->setIcon(QIcon::fromTheme(IconNameList.at(1), QIcon(IconPath.at(1))));
+    QPushButton::enterEvent(event);
+}
+
+void switchButton::leaveEvent(QEvent *event)
+{
+    this->setIcon(QIcon::fromTheme(IconNameList.at(0), QIcon(IconPath.at(0))));
+    QPushButton::leaveEvent(event);
+}
+
