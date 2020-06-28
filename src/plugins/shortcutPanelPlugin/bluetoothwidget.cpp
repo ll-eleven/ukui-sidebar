@@ -2,9 +2,9 @@
 
 bluetoothWidget::bluetoothWidget()
 {
+    initBluetoothDbus();
     initMemberVariables();
     initLayout();
-    initBluetoothDbus();
     initBluetoothStatus();
 }
 
@@ -24,7 +24,6 @@ void bluetoothWidget::initMemberVariables()
     m_pbluetoothButton->setIconSize(QSize(32, 32));
 
     m_pbluetoothLabel = new QLabel(QObject::tr("蓝牙"));
-//    m_pbluetoothLabel->setFixedSize(80, 16);
     m_pbluetoothLabel->setAlignment(Qt::AlignHCenter);
 
     m_pVboxLayout = new QVBoxLayout();
@@ -58,7 +57,7 @@ bool bluetoothWidget::initBluetoothDbus()
                                              KYLIN_BLUETOOTH_SERVER_PATH,
                                              KYLIN_BLUETOOTH_SERVER_INTERFACE,
                                              QDBusConnection::sessionBus());
-    if (m_pServiceInterface == nullptr) {
+    if (m_pServiceInterface->isValid() && m_pServiceInterface == nullptr) {
         qDebug() << "dbus接口初始化失败";
         return false;
     }
@@ -89,6 +88,7 @@ void bluetoothWidget::setBluetoothStatus()
 /* 监听dbus信号，当蓝牙状态改变时，将会触发此信号 */
 void bluetoothWidget::BluetoothStatusChangedSlots(bool status)
 {
+    qDebug() << "当前蓝牙状态已改变";
     m_bbluetoothStatus = status;
     setBluetoothStatus();
     return;
