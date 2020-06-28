@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QStyleOption>
 #include <QPainter>
+#include "customstyle.h"
 class smallPluginsWidget : public QWidget
 {
     Q_OBJECT

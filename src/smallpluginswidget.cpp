@@ -29,6 +29,7 @@ void smallPluginsWidget::parsingDesktopFile()
         SmallPushButton->setIcon(QIcon::fromTheme(icon));
         SmallPushButton->setIconSize(QSize(32, 32));
         SmallPushButton->setFixedSize(32, 32);
+        SmallPushButton->setStyle(new CustomStyle("ukui-default"));
         connect(SmallPushButton, &QPushButton::clicked, this, [=]() {
             QProcess p(0);
             p.startDetached(Exec);

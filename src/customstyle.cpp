@@ -170,6 +170,41 @@ void CustomStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
             painter->restore();
             return;
           }
+    case PE_PanelButtonCommand: {
+        if (widget) {
+            if (option->state & State_MouseOver) {
+                if (option->state &  State_Sunken) {
+                    painter->save();
+                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setPen(Qt::NoPen);
+                    QColor color(255,255,255);
+                    painter->setOpacity(0.08);
+                    painter->setBrush(color);
+                    painter->drawRoundedRect(option->rect, 4, 4);
+                    painter->restore();
+                } else {
+                    painter->save();
+                    painter->setRenderHint(QPainter::Antialiasing,true);
+                    painter->setPen(Qt::NoPen);
+                    QColor color(255,255,255);
+                    painter->setOpacity(0.2);
+                    painter->setBrush(color);
+                    painter->drawRoundedRect(option->rect, 4, 4);
+                    painter->restore();
+                }
+            } else {
+                painter->save();
+                painter->setRenderHint(QPainter::Antialiasing,true);
+                painter->setPen(Qt::NoPen);
+                QColor color(61,107,229,0);
+                painter->setBrush(color);
+                painter->drawRoundedRect(option->rect, 4, 4);
+                painter->restore();
+            }
+            return;
+        }
+
+    }
     default:
         break;
     }
