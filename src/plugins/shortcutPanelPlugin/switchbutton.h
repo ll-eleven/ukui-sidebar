@@ -18,8 +18,6 @@ protected:
     void enterEvent(QEvent *event);
     void mouseReleaseEvent(QMouseEvent *e);
 signals:
-    void pressSignal();
-    void releaseSignal();
 
 private:
     QStringList IconPath;

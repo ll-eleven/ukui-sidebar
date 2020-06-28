@@ -62,7 +62,6 @@ private:
 
     bool          m_bWifiIsEnable;
 private slots:
-
     void          WifiButtonClickSlot();
 };
 

@@ -16,7 +16,6 @@ void switchButton::mousePressEvent(QMouseEvent *event)
     this->setFixedSize(52, 52);
     this->setIcon(QIcon::fromTheme(IconNameList.at(2), QIcon(IconPath.at(2))));
     QPushButton::mousePressEvent(event);
-    emit pressSignal();
 }
 
 void switchButton::enterEvent(QEvent *event)
@@ -30,5 +29,4 @@ void switchButton::mouseReleaseEvent(QMouseEvent *e)
     this->setFixedSize(62, 62);
     this->setIcon(QIcon::fromTheme(IconNameList.at(0), QIcon(IconPath.at(0))));
     QPushButton::mouseReleaseEvent(e);
-    emit releaseSignal();
 }

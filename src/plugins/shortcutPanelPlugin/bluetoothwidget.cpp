@@ -1,11 +1,16 @@
 #include "bluetoothwidget.h"
 
-bluetoothWidget::bluetoothWidget()
+bluetoothWidget::bluetoothWidget(QWidget *parent) : QWidget(parent)
 {
     initBluetoothDbus();
     initMemberVariables();
     initLayout();
     initBluetoothStatus();
+}
+
+bluetoothWidget::~bluetoothWidget()
+{
+
 }
 
 void bluetoothWidget::initMemberVariables()
@@ -20,6 +25,7 @@ void bluetoothWidget::initMemberVariables()
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pbluetoothButton = new switchButton(m_IconPathList, m_IconNameList);
+    connect(m_pbluetoothButton, &switchButton::clicked, this, &bluetoothWidget::bluetoothButtonClickSlots);
     m_pbluetoothButton->setFixedSize(62, 62);
     m_pbluetoothButton->setIconSize(QSize(32, 32));
 

@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QtDBus>
-#include "switchbutton.h".h"
+#include "switchbutton.h"
 #include "swichButtonOpenStatus.h"
 #include "customstyle_switchNormalStatus.h"
 
@@ -25,8 +25,10 @@
 
 class bluetoothWidget : public QWidget
 {
+    Q_OBJECT
 public:
-    bluetoothWidget();
+    explicit bluetoothWidget(QWidget *parent = nullptr);
+    ~bluetoothWidget();
     void initMemberVariables();
     void initLayout();
 
