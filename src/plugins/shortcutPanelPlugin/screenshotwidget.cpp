@@ -1,10 +1,14 @@
 #include "screenshotwidget.h"
 
-screenshotWidget::screenshotWidget()
+screenshotWidget::screenshotWidget(QWidget *parent) : QWidget(parent)
 {
     initMemberVariables();
     initLayout();
-//    this->setStyleSheet("QWidget{border: 1px solid rgba(255,255,0,1);}");
+}
+
+screenshotWidget::~screenshotWidget()
+{
+
 }
 
 void screenshotWidget::initMemberVariables()
@@ -19,6 +23,7 @@ void screenshotWidget::initMemberVariables()
     m_pVboxButtonLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pscreenshotButton = new switchButton(m_IconPathList, m_IconNameList);
+    connect(m_pscreenshotButton, &switchButton::clicked, this, &screenshotWidget::sreenShotButtonClickedSlots);
     m_pscreenshotButton->setFixedSize(62, 62);
     m_pscreenshotButton->setIconSize(QSize(32, 32));
 
@@ -42,5 +47,13 @@ void screenshotWidget::initLayout()
     m_pVboxLayout->addItem(new QSpacerItem(15, 10));
     m_pVboxLayout->addWidget(m_pscreenshotlabel);
     this->setLayout(m_pVboxLayout);
+    return;
+}
+
+void screenshotWidget::sreenShotButtonClickedSlots()
+{
+    QProcess p(0);
+    p.startDetached("gnome-screenshot -a");
+    p.waitForStarted();
     return;
 }

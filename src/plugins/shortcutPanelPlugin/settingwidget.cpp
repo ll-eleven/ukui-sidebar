@@ -1,10 +1,14 @@
 #include "settingwidget.h"
 
-settingWidget::settingWidget()
+settingWidget::settingWidget(QWidget *parent) : QWidget(parent)
 {
     initMemberVariables();
     initLayout();
-//    this->setStyleSheet("QWidget{border: 1px solid rgba(255,255,0,1);}");
+}
+
+settingWidget::~settingWidget()
+{
+
 }
 
 void settingWidget::initMemberVariables()

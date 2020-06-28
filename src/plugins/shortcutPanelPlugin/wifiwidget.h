@@ -29,7 +29,8 @@ class WifiWidget : public QWidget
 {
     Q_OBJECT
 public:
-    WifiWidget();
+    explicit WifiWidget(QWidget *parent= nullptr);
+    ~WifiWidget();
     void initMemberVariables();
     void initLayout();
     void initStatus();

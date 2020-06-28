@@ -1,10 +1,14 @@
 #include "padwidget.h"
 
-padWidget::padWidget()
+padWidget::padWidget(QWidget *parent) : QWidget(parent)
 {
     initMemberVariables();
     initLayout();
-//    this->setStyleSheet("QWidget{border: 1px solid rgba(255,255,0,1);}");
+}
+
+padWidget::~padWidget()
+{
+
 }
 
 void padWidget::initMemberVariables()

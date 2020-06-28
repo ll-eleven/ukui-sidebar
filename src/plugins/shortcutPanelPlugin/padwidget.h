@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "switchbutton.h".h"
+#include "switchbutton.h"
 
 #define KYLIN_PAD_NORMAL_NAME           "kylin-pad-normal"
 #define KYLIN_PAD_HOVER_NAME            "kylin-pad-hover"
@@ -18,8 +18,10 @@
 
 class padWidget : public QWidget
 {
+    Q_OBJECT
 public:
-    padWidget();
+    explicit padWidget(QWidget *parent = nullptr);
+    ~padWidget();
     void initMemberVariables();
     void initLayout();
 

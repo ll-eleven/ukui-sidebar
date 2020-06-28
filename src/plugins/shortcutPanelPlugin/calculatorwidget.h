@@ -18,8 +18,10 @@
 
 class calculatorWidget : public QWidget
 {
+    Q_OBJECT
 public:
-    calculatorWidget();
+    explicit calculatorWidget(QWidget *parent = nullptr);
+    ~calculatorWidget();
     void initMemberVariables();
     void initLayout();
 private:

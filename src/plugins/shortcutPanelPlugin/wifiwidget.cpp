@@ -1,11 +1,16 @@
 #include "wifiwidget.h"
 
-WifiWidget::WifiWidget()
+WifiWidget::WifiWidget(QWidget *parent) : QWidget(parent)
 {
     initMemberVariables();
     initLayout();
     initComponent();
     initStatus();
+}
+
+WifiWidget::~WifiWidget()
+{
+
 }
 
 void WifiWidget::initMemberVariables()

@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "switchbutton.h".h"
+#include "switchbutton.h"
 
 #define KYLIN_NODISTURB_NORMAL_NAME     "kylin-nodisturb-normal"
 #define KYLIN_NODISTURB_HOVER_NAME     "kylin-nodisturb-hover"
@@ -19,8 +19,10 @@
 
 class nodisturbWidget : public QWidget
 {
+    Q_OBJECT
 public:
-    nodisturbWidget();
+    explicit nodisturbWidget(QWidget *parent = nullptr);
+    ~nodisturbWidget();
     void initMemberVariables();
     void initLayout();
 private:

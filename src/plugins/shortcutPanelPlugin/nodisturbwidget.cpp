@@ -1,10 +1,15 @@
 #include "nodisturbwidget.h"
 
-nodisturbWidget::nodisturbWidget()
+nodisturbWidget::nodisturbWidget(QWidget *parent) : QWidget(parent)
 {
     initMemberVariables();
     initLayout();
 //    this->setStyleSheet("QWidget{border: 1px solid rgba(255,255,0,1);}");
+}
+
+nodisturbWidget::~nodisturbWidget()
+{
+
 }
 
 void nodisturbWidget::initMemberVariables()

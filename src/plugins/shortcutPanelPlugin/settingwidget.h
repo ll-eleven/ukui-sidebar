@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QProcess>
-#include "switchbutton.h".h"
+#include "switchbutton.h"
 
 #define KYLIN_SETTING_NORMAL_NAME       "kylin-setting-normal"
 #define KYLIN_SETTING_HOVER_NAME        "kylin-setting-hover"
@@ -19,8 +19,10 @@
 
 class settingWidget : public QWidget
 {
+    Q_OBJECT
 public:
-    settingWidget();
+    explicit settingWidget(QWidget *parent = nullptr);
+    ~settingWidget();
     void initMemberVariables();
     void initLayout();
 private:

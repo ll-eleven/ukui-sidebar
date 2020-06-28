@@ -18,8 +18,10 @@
 
 class hotspotWidget : public QWidget
 {
+    Q_OBJECT
 public:
-    hotspotWidget();
+    explicit hotspotWidget(QWidget *parent = nullptr);
+    ~hotspotWidget();
     void initMemberVariables();
     void initLayout();
 private:

@@ -6,7 +6,8 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "switchbutton.h".h"
+#include <QProcess>
+#include "switchbutton.h"
 
 #define KYLIN_SCREENSHOT_NORMAL_NAME    "kylin-screenshot-normal"
 #define KYLIN_SCREENSHOT_HOVER_NAME     "kylin-screenshot-hover"
@@ -19,8 +20,10 @@
 
 class screenshotWidget : public QWidget
 {
+    Q_OBJECT
 public:
-    screenshotWidget();
+    explicit screenshotWidget(QWidget *parent = nullptr);
+    ~screenshotWidget();
     void initMemberVariables();
     void initLayout();
 
@@ -34,6 +37,8 @@ private:
 
     QStringList   m_IconPathList;
     QStringList   m_IconNameList;
+private slots:
+    void         sreenShotButtonClickedSlots();
 };
 
 #endif // SCREENSHOTWIDGET_H
