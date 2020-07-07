@@ -79,6 +79,7 @@ private:
     QStringList   m_IconNameList;
 
     bool          m_bWifiIsEnable;
+    bool          m_bWifiInitStatus;
 private slots:
     void          WifiButtonClickSlot();
 };

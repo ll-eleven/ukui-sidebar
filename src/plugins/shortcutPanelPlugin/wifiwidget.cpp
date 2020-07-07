@@ -76,6 +76,7 @@ void WifiWidget::initLayout()
 /* 初始化控件状态 */
 void WifiWidget::initStatus()
 {
+    m_bWifiInitStatus = getwifiisEnable();
     if (getwifiisEnable()) {
         m_bWifiIsEnable = getInitStatus();
         if (m_bWifiIsEnable) {
@@ -170,7 +171,7 @@ void WifiWidget::initComponent()
         //  监听key的value是否发生了变化
         qDebug() << "初始化的switch开关" << m_bWifiIsEnable;
         connect(m_gsettings, &QGSettings::changed, this, [=] (const QString &key) {
-            qDebug()<<"status changed ------------>"<< key << endl;
+            qDebug() << "status changed ------------>" << key << endl;
             if (key == "switchor") {
                 bool judge = getSwitchStatus(key);    // 网络工具助手修改的gsetting值
                 qDebug() << "当前Key值----->value === " << judge;
@@ -213,6 +214,17 @@ void WifiWidget::setwifiSwitch(bool signal)
 void WifiWidget::WifiButtonClickSlot()
 {
     qDebug() << "是否进入这里";
+    if (!m_bWifiInitStatus) {
+        qDebug() << "没有wifi模块";
+        // 为了发出没有Wifi提示信息，而改变getsetting值
+        if (m_bWifiIsEnable) {
+            m_bWifiIsEnable = false;
+        } else {
+            m_bWifiIsEnable = true;
+        }
+        setwifiSwitch(m_bWifiIsEnable);
+        return;
+    }
     if (m_bWifiIsEnable) {
         NormalStatus();
         m_bWifiIsEnable = false;
